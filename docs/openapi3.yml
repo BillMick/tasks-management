@@ -1,0 +1,63 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: localhost
+    url: http://localhost:3000/api/v1
+info:
+  description: Cloud TP1
+  version: "1.0.0"
+  title: Cloud TP1
+  contact:
+    email: nocompany@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: books
+    description: API pour mes bouquins
+paths:
+  /inventory:
+    get:
+      tags:
+        - books
+      summary: récupère tous les livres
+      operationId: searchAll
+      description: récupère tous les livres
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+components:
+  schemas:
+    Book:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: id
+          example: 42
+        title:
+          type: string
+          example: Lord of the ring
+        description:
+          type: string
+          example: Somebody lost his rings
+        createdAt:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
