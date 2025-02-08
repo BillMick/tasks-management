@@ -30,4 +30,5 @@ Le dossier src a été créé en pensant séparation des responsabilités
 5. lancer le projet avec la commande : yarn serve
 
 ## Pour installer yarn
-```{bash}npm install yarn```
+```npm install yarn``` (pour l'installer localement)
+```npm install -g yarn``` (pour l'installer globalement)
