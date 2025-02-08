@@ -14,6 +14,9 @@ exports.readByID = async (data, response) => {
             where: {
                 id: data.params.id
             },
+            include: {
+              tags: true,
+            }
         });
         console.log(task);
         response.status(200).json({
@@ -38,6 +41,9 @@ exports.readByTitle = async (data, response) => {
             where: {
                 title: task_title
             },
+            include: {
+                tags: true,
+            }
         })
         console.log(task);
         response.status(200).json({
@@ -59,6 +65,9 @@ exports.readByPriority = async (data, response) => {
           where: {
             priority: parseInt(priority),
           },
+          include: {
+              tags: true,
+          }
         });
         return response.json({ tasks });
       } catch (error) {

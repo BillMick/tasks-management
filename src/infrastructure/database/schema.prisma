@@ -15,6 +15,13 @@ datasource db {
 //   ENDED
 // }
 
+
+model Tag {
+  id          String @id @default(uuid())
+  title       String
+  tasks Task[] @relation("TasksTag")
+}
+
 model Task {
   id          String @id @default(uuid())
   title       String
@@ -25,8 +32,3 @@ model Task {
   tags Tag[] @relation("TasksTag")
 }
 
-model Tag {
-  id          String @id @default(uuid())
-  title       String
-  tasks Task[] @relation("TasksTag")
-}
