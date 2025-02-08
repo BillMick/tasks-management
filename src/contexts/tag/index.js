@@ -8,7 +8,11 @@ const router = Router();
 
 
 router.get("/", async (req, res) => {
-    const tags = await client.tag.findMany();
+    const tags = await client.tag.findMany({
+        include: {
+            tasks: true,
+        }
+    });
     res.status(200).json(tags);
 });
 
@@ -34,5 +38,29 @@ router.get("/delete/:id", async (data, response) => {
 });
 
 router.put("/:id", update.update); // update tag data (title)
+
+router.get("/connect/:tag_id/:task_id", async (data, response) => {
+    const tag = await client.tag.update({
+        where: { id: data.params.tag_id },
+        data: {
+            tasks: {
+                connect: { id: data.params.task_id },
+            },
+        },
+    });
+    response.status(200).json({tag: tag});
+});
+
+router.get("/disconnect/:tag_id/:task_id", async (data, response) => {
+    const tag = await client.tag.update({
+        where: { id: data.params.tag_id },
+        data: {
+            tasks: {
+                disconnect: { id: data.params.task_id },
+            },
+        },
+    });
+    response.status(200).json({tag: tag});
+});
 
 module.exports = router;

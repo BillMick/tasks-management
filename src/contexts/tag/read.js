@@ -14,6 +14,9 @@ exports.readByID = async (data, response) => {
             where: {
                 id: data.params.id
             },
+            include: {
+                tasks: true,
+            }
         });
         console.log(tag);
         response.status(200).json({
@@ -38,6 +41,9 @@ exports.readByTitle = async (data, response) => {
             where: {
                 title: tag_title
             },
+            include: {
+                tasks: true,
+            }
         });
         console.log(tag);
         response.status(200).json({
