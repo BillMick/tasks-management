@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// enum TaskStatus {
+//   NOTENDED
+//   ENDED
+// }
+
+model Task {
+  id          String @id @default(uuid())
+  title       String
+  description String?
+  // status      TaskStatus @default(NOTENDED) // not supported by sqlite
+  status      String @default("NOTENDED")
+  priority    Int @default(5)
+  tags Tag[] @relation("TasksTag")
+}
+
+model Tag {
+  id          String @id @default(uuid())
+  title       String
+  tasks Task[] @relation("TasksTag")
+}
