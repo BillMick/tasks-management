@@ -544,3 +544,71 @@
  *                   description: error content
  *                   example: "Task or tag not found."
  */
+
+/**
+ * @swagger
+ * /api/limit:
+ *   get:
+ *     summary: Get tasks with pagination
+ *     description: Retrieves tasks with pagination, showing 10 tasks per page. The `page` query parameter specifies the page number.
+ *     tags:
+ *       - Tasks Management
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         description: Page number for pagination. Defaults to 1 if not provided.
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Tasks retrieved successfully with pagination.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tasks:
+ *                   type: array
+ *                   description: A list of tasks for the current page, sorted by priority.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The task's unique ID
+ *                       title:
+ *                         type: string
+ *                         description: The title of the task
+ *                       description:
+ *                         type: string
+ *                         description: A description of the task
+ *                       status:
+ *                         type: string
+ *                         description: The status of the task
+ *                         example: "NOTENDED"
+ *                       priority:
+ *                         type: integer
+ *                         description: The priority of the task
+ *                         example: 3
+ *                 page:
+ *                   type: integer
+ *                   description: The current page number.
+ *                   example: 1
+ *       500:
+ *         description: Internal server error. The request could not be completed.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   description: false
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   description: error content
+ *                   example: "Error fetching tasks. Please try again later."
+ */
