@@ -668,3 +668,58 @@
  *                   description: error content
  *                   example: "Problem with server. Contact Administrator."
  */
+
+/**
+ * @swagger
+ * /api/byTag:
+ *   get:
+ *     summary: Filter tasks by tag ID.
+ *     description: Route to filter tasks based on a given tag ID.
+ *     tags:
+ *       - Tasks Management
+ *     parameters:
+ *       - in: params
+ *         name: tag_id
+ *         required: true
+ *         description: The ID of the tag to filter tasks by.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Tasks filtered by the provided tag.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tasks:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       status:
+ *                         type: string
+ *                       priority:
+ *                         type: integer
+ *                       tags:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             id:
+ *                               type: string
+ *                             title:
+ *                               type: string
+ *       400:
+ *         description: Missing tag ID parameter.
+ *       404:
+ *         description: No tasks found for the provided tag.
+ *       500:
+ *         description: Server error when fetching tasks.
+ */

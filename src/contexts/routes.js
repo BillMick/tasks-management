@@ -37,4 +37,33 @@ router.get("/desc", async (data, response) => {
     response.status(200).json({ tasks: tasks });
 });
 
+router.get("/byTag/:tag_id", async (data, response) => {
+    try {
+        const tag_id = data.params.tag_id;
+        if (!tag_id) {
+            return response.status(400).json({
+                status: false,
+                error: "Tag ID is required to filter tasks."
+            });
+        }
+        const tasks = await client.task.findMany({
+            where: { tags: { some: { id: tag_id } } },
+            include: { tags: true }
+        });
+        if (tasks.length === 0) {
+            return response.status(404).json({
+                status: false,
+                message: "No tasks found for the provided tag."
+            });
+        }
+        response.status(200).json({ tasks: tasks });
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({
+            status: false,
+            error: "Error fetching tasks by tag. Please try again later."
+        });
+    }
+});
+
 module.exports = router;
