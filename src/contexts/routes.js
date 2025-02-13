@@ -25,4 +25,16 @@ router.get("/limit", async (data, response) => {
     }
 });
 
+router.get("/desc", async (data, response) => {
+    const tasks = await client.task.findMany({
+        orderBy: {
+            priority: 'asc',
+        },
+        include: {
+            tags: true
+        }
+    });
+    response.status(200).json({ tasks: tasks });
+});
+
 module.exports = router;

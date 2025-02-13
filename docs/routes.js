@@ -612,3 +612,59 @@
  *                   description: error content
  *                   example: "Error fetching tasks. Please try again later."
  */
+
+/**
+ * @swagger
+ * /api/desc:
+ *   get:
+ *     summary: Get all tasks sorted by descendant priority
+ *     description: Retrieves all tasks for the authenticated user, sorted by their priority .
+ *     tags:
+ *       - Tasks Management
+ *     responses:
+ *       200:
+ *         description: Tasks retrieved successfully, sorted by priority.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tasks:
+ *                   type: array
+ *                   description: A list of tasks sorted by priority.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The task's unique ID
+ *                       title:
+ *                         type: string
+ *                         description: The title of the task
+ *                       description:
+ *                         type: string
+ *                         description: A description of the task
+ *                       status:
+ *                         type: string
+ *                         description: The status of the task
+ *                         example: "NOTENDED"
+ *                       priority:
+ *                         type: integer
+ *                         description: The priority of the task
+ *                         example: 3
+ *       500:
+ *         description: Internal server error. The request could not be completed.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   description: false
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   description: error content
+ *                   example: "Problem with server. Contact Administrator."
+ */
