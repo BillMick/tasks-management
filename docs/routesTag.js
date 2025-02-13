@@ -215,28 +215,28 @@
 
 /**
  * @swagger
- * /connect/{tag_id}/{task_id}:
+ * /api/tags/connect/{tag_id}/{task_id}:
  *   get:
  *     summary: Connect a task to a tag
- *     description: Adds an association between a tag and a task by their IDs
+ *     description: Connects the task with the specified ID to the tag with the specified ID.
  *     tags:
  *       - Tags Management
  *     parameters:
  *       - name: tag_id
  *         in: path
  *         required: true
- *         description: The ID of the tag to be updated
+ *         description: The ID of the tag to update
  *         schema:
  *           type: string
  *       - name: task_id
  *         in: path
  *         required: true
- *         description: The ID of the task to be associated with the tag
+ *         description: The ID of the task to connect to the tag
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Successfully connected the tag and the task
+ *         description: Tag updated successfully with the connected task
  *         content:
  *           application/json:
  *             schema:
@@ -244,10 +244,25 @@
  *               properties:
  *                 tag:
  *                   type: object
- *                   description: The updated tag object after the connection
- *                   additionalProperties: true
+ *                   description: The updated tag with the connected task
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       description: The tag's unique ID
+ *                     tasks:
+ *                       type: array
+ *                       description: A list of tasks associated with the tag
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             description: The task's unique ID
+ *                           title:
+ *                             type: string
+ *                             description: The title of the task
  *       400:
- *         description: Bad request if parameters are invalid or other issues
+ *         description: Bad request. Possibly due to missing or incorrect parameters.
  *         content:
  *           application/json:
  *             schema:
@@ -259,10 +274,10 @@
  *                   example: false
  *                 error:
  *                   type: string
- *                   description: error message
- *                   example: "Invalid parameters."
+ *                   description: error content
+ *                   example: "Bad request. Please check the tag_id or task_id."
  *       404:
- *         description: Not found if either tag or task with given IDs are not found
+ *         description: Tag or task not found.
  *         content:
  *           application/json:
  *             schema:
@@ -274,45 +289,34 @@
  *                   example: false
  *                 error:
  *                   type: string
- *                   description: error message
- *                   example: "Tag or Task not found."
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: error message
- *                   example: "Problem with server. Contact Administrator."
+ *                   description: error content
+ *                   example: "Tag or task not found."
  */
 
 /**
  * @swagger
- * /disconnect/{tag_id}/{task_id}:
+ * /api/tags/disconnect/{tag_id}/{task_id}:
  *   get:
  *     summary: Disconnect a task from a tag
- *     description: Removes the association between a tag and a task by their IDs
+ *     description: Disconnects the task with the specified ID from the tag with the specified ID.
  *     tags:
  *       - Tags Management
  *     parameters:
  *       - name: tag_id
  *         in: path
  *         required: true
- *         description: The ID of the tag to be updated
+ *         description: The ID of the tag to update
  *         schema:
  *           type: string
  *       - name: task_id
  *         in: path
  *         required: true
- *         description: The ID of the task to be dissociated from the tag
+ *         description: The ID of the task to disconnect from the tag
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Successfully disconnected the tag and the task
+ *         description: Tag updated successfully with the disconnected task
  *         content:
  *           application/json:
  *             schema:
@@ -320,10 +324,25 @@
  *               properties:
  *                 tag:
  *                   type: object
- *                   description: The updated tag object after the disconnection
- *                   additionalProperties: true
+ *                   description: The updated tag with the disconnected task
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       description: The tag's unique ID
+ *                     tasks:
+ *                       type: array
+ *                       description: A list of tasks associated with the tag after the disconnection
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             description: The task's unique ID
+ *                           title:
+ *                             type: string
+ *                             description: The title of the task
  *       400:
- *         description: Bad request if parameters are invalid or other issues
+ *         description: Bad request. Possibly due to missing or incorrect parameters.
  *         content:
  *           application/json:
  *             schema:
@@ -335,10 +354,10 @@
  *                   example: false
  *                 error:
  *                   type: string
- *                   description: error message
- *                   example: "Invalid parameters."
+ *                   description: error content
+ *                   example: "Bad request. Please check the tag_id or task_id."
  *       404:
- *         description: Not found if either tag or task with given IDs are not found
+ *         description: Tag or task not found.
  *         content:
  *           application/json:
  *             schema:
@@ -350,17 +369,6 @@
  *                   example: false
  *                 error:
  *                   type: string
- *                   description: error message
- *                   example: "Tag or Task not found."
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: error message
- *                   example: "Problem with server. Contact Administrator."
+ *                   description: error content
+ *                   example: "Tag or task not found."
  */
