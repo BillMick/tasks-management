@@ -37,7 +37,7 @@ cp .env.example .env
 
 2. ajouter cette ligne au fichier **.env**:
 ```bash
-JWT_SECRET="th3-n06l3st-4rt-is-th4t-0f-m4king-0th3rs-h4ppy"
+JWT_SECRET="your-secret-code"
 ```
 
 3. créer un fichier **.env.local** en copiant le fichier **.env.example**
