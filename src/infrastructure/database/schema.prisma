@@ -15,13 +15,6 @@ datasource db {
 //   ENDED
 // }
 
-
-model Tag {
-  id          String @id @default(uuid())
-  title       String
-  tasks Task[] @relation("TasksTag")
-}
-
 model Task {
   id          String @id @default(uuid())
   title       String
@@ -29,6 +22,20 @@ model Task {
   // status      TaskStatus @default(NOTENDED) // not supported by sqlite
   status      String @default("NOTENDED")
   priority    Int @default(5)
-  tags Tag[] @relation("TasksTag")
+  tags Tag[]  @relation("TasksTag")
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
 }
 
+model Tag {
+  id           String @id @default(uuid())
+  title        String
+  tasks Task[] @relation("TasksTag")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  username String  @unique
+  password String
+  tasks    Task[]
+}
