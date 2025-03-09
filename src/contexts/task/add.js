@@ -12,15 +12,16 @@ exports.add = async (data, response) => {
     else {
         let task = data.body;
         const new_task = await client.task.create({
-            data: { 
+            data: {
                 title: task.title,
                 ...(task.description ? { description: task.description } : {}),
                 ...(task.priority ? { priority: parseInt(task.priority) } : {}),
+                userId: data.user.userId,
             },
         })
         console.log(new_task);
     }
-    response.status(200).json({
+    return response.status(200).json({
         message: "Task successfully inserted."
     });
 }

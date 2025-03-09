@@ -20,7 +20,8 @@ exports.update = async (data, response) => {
     else {
         const task = await client.task.update({
             where: {
-                id: data.params.id
+                id: data.params.id,
+                userId: data.user.userId
             },
             data: {
                 title: data.body.title,
@@ -53,7 +54,10 @@ exports.updatePartially = async (data, response) => {
   
     try {
       const updatedTask = await client.task.update({
-        where: { id: id },
+        where: {
+          id: id,
+          userId: data.user.userId
+        },
         data: updateData,
       });
       return response.json({ task: updatedTask });

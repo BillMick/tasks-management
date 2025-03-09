@@ -12,7 +12,8 @@ exports.readByID = async (data, response) => {
     else {
         const task = await client.task.findUnique({
             where: {
-                id: data.params.id
+                id: data.params.id,
+                userId: data.user.userId
             },
             include: {
               tags: true,
@@ -39,7 +40,8 @@ exports.readByTitle = async (data, response) => {
         let task_title = data.params.title;
         const task = await client.task.findFirst({
             where: {
-                title: task_title
+                title: task_title,
+                userId: data.user.userId
             },
             include: {
                 tags: true,
@@ -64,6 +66,7 @@ exports.readByPriority = async (data, response) => {
         const tasks = await client.task.findMany({
           where: {
             priority: parseInt(priority),
+            userId: data.user.userId
           },
           include: {
               tags: true,
@@ -90,9 +93,8 @@ exports.readByPriority = async (data, response) => {
   exports.readByPriorityOrder = async (data, response) => {
       try {
         const tasks = await client.task.findMany({
-          orderBy: {
-            priority: 'desc',
-          }
+          where: { userId: data.user.userId },
+          orderBy: { priority: 'desc', }
         });
         return response.json({ tasks });
       } catch (error) {

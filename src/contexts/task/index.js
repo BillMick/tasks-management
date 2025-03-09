@@ -6,32 +6,53 @@ const update = require("./update.js");
 
 const router = Router();
 
+const jwt = require('jsonwebtoken');
 
-router.get("/", async (req, res) => {
+function authenticateJWT(data, response, next) {
+  const token = data.header('Authorization')?.split(' ')[1];
+
+  if (!token) {
+    return response.status(401).json({ error: 'Access denied. No token provided.' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return response.status(403).json({ error: 'Invalid or expired token.' });
+    }
+    data.user = decoded;
+    next();
+  });
+}
+
+router.get("/", authenticateJWT, async (data, response) => {
     const tasks = await client.task.findMany({
+        where: { userId: data.user.userId },
         include: {
             tags: true,
         }
     });
-    res.status(200).json(tasks);
+    response.status(200).json(tasks);
 });
 
-router.post("/", add.add);
+router.post("/", authenticateJWT, add.add);
 
-router.get("/:id", read.readByID);
+router.get("/:id", authenticateJWT, read.readByID);
 
-router.get("/title/:title", read.readByTitle);
+router.get("/title/:title", authenticateJWT, read.readByTitle);
 
-router.get("/priority", read.readByPriorityOrder);
+router.get("/priority", authenticateJWT, read.readByPriorityOrder);
 
-router.get("/priority/:priority", read.readByPriority);
+router.get("/priority/:priority", authenticateJWT, read.readByPriority);
 
-router.get("/delete/:id", async (data, response) => {
+router.get("/delete/:id", authenticateJWT, async (data, response) => {
     const task = await client.task.delete({
-        where: { id: data.params.id }
+        where: { 
+            id: data.params.id, 
+            userId: data.user.userId
+        }
     });
     if (task) {
-        response.status(200).json({
+        return response.status(200).json({
             message: "Task successfully deleted.", 
             task: task
         })
@@ -41,13 +62,16 @@ router.get("/delete/:id", async (data, response) => {
     })
 });
 
-router.put("/:id", update.update); // update tasks data (title, description, ...)
+router.put("/:id", authenticateJWT, update.update);
 
-router.patch("/:id", update.updatePartially); // update partially tasks data (title, description, ...)
+router.patch("/:id", authenticateJWT, update.updatePartially);
 
-router.get("/connect/:task_id/:tag_id", async (data, response) => {
+router.get("/connect/:task_id/:tag_id", authenticateJWT, async (data, response) => {
     const task = await client.task.update({
-        where: { id: data.params.task_id },
+        where: { 
+            id: data.params.task_id,
+            userId: data.user.userId
+        },
         data: {
             tags: {
                 connect: { id: data.params.tag_id },
@@ -57,9 +81,12 @@ router.get("/connect/:task_id/:tag_id", async (data, response) => {
     response.status(200).json({task: task});
 });
 
-router.get("/disconnect/:task_id/:tag_id", async (data, response) => {
+router.get("/disconnect/:task_id/:tag_id", authenticateJWT, async (data, response) => {
     const task = await client.task.update({
-        where: { id: data.params.task_id },
+        where: {
+            id: data.params.task_id,
+            userId: data.user.userId
+        },
         data: {
             tags: {
                 disconnect: { id: data.params.tag_id },
@@ -68,5 +95,6 @@ router.get("/disconnect/:task_id/:tag_id", async (data, response) => {
     });
     response.status(200).json({task: task});
 });
+
 
 module.exports = router;
