@@ -2,43 +2,21 @@ const { Router } = require("express");
 
 const router = Router();
 
-const { client } = require("../infrastructure/database/database");
-
 router.use("/tasks", require("./task"));
 router.use("/tags", require("./tag"));
-router.use("/users", require("./user"));
 
-const jwt = require('jsonwebtoken');
-// const authenticateJWT = require("task/index.js")
-function authenticateJWT(data, response, next) {
-  const token = data.header('Authorization')?.split(' ')[1];
-
-  if (!token) {
-    return response.status(401).json({ error: 'Access denied. No token provided.' });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return response.status(403).json({ error: 'Invalid or expired token.' });
-    }
-    data.user = decoded;
-    next();
-  });
-}
-
-router.get("/limit", authenticateJWT, async (data, response) => {
+router.get("/limit", async (data, response) => {
     const page = parseInt(data.query.page) || 1;
     const pageSize = 10;
     const skip = (page - 1) * pageSize;
     try {
         const tasks = await client.task.findMany({
-            where: { userId: data.user.userId },
             skip: skip,
             take: pageSize,
             orderBy: { priority: 'asc' },
             include: { tags: true }
         });
-    return response.status(200).json({ tasks: tasks, page: page });
+    response.status(200).json({ tasks: tasks, page: page });
     } catch (error) {
         response.status(500).json({
             status: false,
@@ -47,19 +25,21 @@ router.get("/limit", authenticateJWT, async (data, response) => {
     }
 });
 
-router.get("/desc", authenticateJWT, async (data, response) => {
+router.get("/desc", async (data, response) => {
     const tasks = await client.task.findMany({
-        where: { userId: data.user.userId },
-        orderBy: { priority: 'asc' },
-        include: { tags: true }
+        orderBy: {
+            priority: 'asc',
+        },
+        include: {
+            tags: true
+        }
     });
     response.status(200).json({ tasks: tasks });
 });
 
-router.get("/byTag", authenticateJWT, async (data, response) => {
+router.get("/byTag/:tag_id", async (data, response) => {
     try {
-        const { tag_id } = data.query;
-        
+        const tag_id = data.params.tag_id;
         if (!tag_id) {
             return response.status(400).json({
                 status: false,
@@ -76,7 +56,7 @@ router.get("/byTag", authenticateJWT, async (data, response) => {
                 message: "No tasks found for the provided tag."
             });
         }
-        return response.status(200).json({ tasks: tasks });
+        response.status(200).json({ tasks: tasks });
     } catch (error) {
         console.error(error);
         response.status(500).json({
