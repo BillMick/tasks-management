@@ -1,6 +1,4 @@
-# Back
-
-## Librairie tierce
+## Librairies tierces
 
 - Prisma : cette librarie va servir à faire la liaison entre notre API et la base de données.
   Exemple d'utilisation [ici](https://www.prisma.io/docs/getting-started)
@@ -10,8 +8,7 @@
 - bcryptjs: npm install bcryptjs
 - jsonwebtoken: npm install jsonwebtoken
 
-
-## La structure
+## Structure
 
 - src : le code source
 
@@ -19,9 +16,9 @@
 
 - test : via postman (pas réussi à cause des contraintes d'installation du logiciel)
 
-## Structure du dossier src
+## Dossier src
 
-Le dossier src a été créé en pensant séparation des responsabilités
+Le dossier *src* a été créé en pensant séparation des responsabilités
 
 - **main.ts :** point d'entrée de l'app
 
