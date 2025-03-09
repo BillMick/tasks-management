@@ -33,7 +33,7 @@ const swaggerDefinition = {
       url: "",
     },
     contact: {
-      name: "Polytech - SOA",
+      name: "Bill A. - SOA",
       url: "",
     },
   },

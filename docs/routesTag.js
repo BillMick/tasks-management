@@ -35,7 +35,6 @@
  *                     example: Problem with server. Contact Administrator.
 */
 
-
 /**
  * @swagger
  * /api/tags:
