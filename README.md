@@ -1,5 +1,3 @@
-# Back
-
 ## Librairie tierce
 
 - Prisma : cette librarie va servir à faire la liaison entre notre API et la base de données.
