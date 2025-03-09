@@ -7,13 +7,9 @@ const update = require("./update.js");
 const router = Router();
 
 
-router.get("/", async (req, res) => {
-    const tags = await client.tag.findMany({
-        include: {
-            tasks: true,
-        }
-    });
-    res.status(200).json(tags);
+router.get("/", async (data, response) => {
+    const tags = await client.tag.findMany();
+    response.status(200).json(tags);
 });
 
 router.post("/", add.add);
@@ -27,12 +23,12 @@ router.get("/delete/:id", async (data, response) => {
         where: { id: data.params.id }
     });
     if (tag) {
-        response.status(200).json({
+        return response.status(200).json({
             message: "tag successfully deleted.", 
             tag: tag
         })
     }
-    response.status(400).json({
+    return response.status(400).json({
         message: "tag not deleted."
     })
 });

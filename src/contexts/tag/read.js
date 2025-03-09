@@ -11,15 +11,10 @@ exports.readByID = async (data, response) => {
     }
     else {
         const tag = await client.tag.findUnique({
-            where: {
-                id: data.params.id
-            },
-            include: {
-                tasks: true,
-            }
+            where: { id: data.params.id }
         });
         console.log(tag);
-        response.status(200).json({
+        return response.status(200).json({
             tag: tag
         });
     }
@@ -38,12 +33,7 @@ exports.readByTitle = async (data, response) => {
     else {
         let tag_title = data.params.title;
         const tag = await client.tag.findFirst({
-            where: {
-                title: tag_title
-            },
-            include: {
-                tasks: true,
-            }
+            where: { title: tag_title }
         });
         console.log(tag);
         response.status(200).json({

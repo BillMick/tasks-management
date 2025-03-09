@@ -18,7 +18,7 @@ exports.add = async (data, response) => {
         })
         console.log(new_tag);
     }
-    response.status(200).json({
+    return response.status(200).json({
         message: "tag successfully inserted."
     });
 }
