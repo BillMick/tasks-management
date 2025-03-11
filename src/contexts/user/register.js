@@ -36,7 +36,7 @@ exports.register = async (data, response) => {
       },
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return response.status(500).json({ error: 'An error occurred during registration.' });
   }
 };

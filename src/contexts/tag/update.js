@@ -55,7 +55,7 @@ exports.updatePartially = async (data, response) => {
       });
       return response.json({ tag: updatedtag });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       return response.status(500).json({ error: "Problem with server. Contact Administrator." });
     }
   };

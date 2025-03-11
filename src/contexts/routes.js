@@ -78,7 +78,7 @@ router.get("/byTag", authenticateJWT, async (data, response) => {
         }
         return response.status(200).json({ tasks: tasks });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         response.status(500).json({
             status: false,
             error: "Error fetching tasks by tag. Please try again later."

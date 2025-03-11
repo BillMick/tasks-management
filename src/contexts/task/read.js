@@ -74,7 +74,7 @@ exports.readByPriority = async (data, response) => {
         });
         return response.json({ tasks });
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         return response.status(500).json({ error: "Problem with server. Contact Administrator." });
       }
     } 
@@ -84,7 +84,7 @@ exports.readByPriority = async (data, response) => {
   
     //     return res.json({ tasks });
     //   } catch (error) {
-    //     console.error(error);
+    //     // console.error(error);
     //     return res.status(500).json({ error: "Problem with server. Contact Administrator." });
     //   }
     // }
@@ -98,7 +98,7 @@ exports.readByPriority = async (data, response) => {
         });
         return response.json({ tasks });
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         return response.status(500).json({ error: "Problem with server. Contact Administrator." });
       }
     }
