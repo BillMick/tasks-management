@@ -56,12 +56,8 @@ exports.readByTitle = async (data, response) => {
 
 exports.readByPriority = async (data, response) => {
     const priority = data.params.priority;
-  
     if (priority) {
-      if (isNaN(priority)) {
-        return response.status(400).json({ error: "Invalid priority value." });
-      }
-  
+      if (isNaN(priority)) { return response.status(400).json({ error: "Invalid priority value." }); }
       try {
         const tasks = await client.task.findMany({
           where: {
@@ -74,20 +70,10 @@ exports.readByPriority = async (data, response) => {
         });
         return response.json({ tasks });
       } catch (error) {
-        console.error(error);
         return response.status(500).json({ error: "Problem with server. Contact Administrator." });
       }
-    } 
-    // else {
-    //   try {
-    //     const tasks = await prisma.task.findMany();
-  
-    //     return res.json({ tasks });
-    //   } catch (error) {
-    //     console.error(error);
-    //     return res.status(500).json({ error: "Problem with server. Contact Administrator." });
-    //   }
-    // }
+    }
+    return response.status(400).json({error: "Prority parameter is required."})
   };
 
   exports.readByPriorityOrder = async (data, response) => {
@@ -98,7 +84,6 @@ exports.readByPriority = async (data, response) => {
         });
         return response.json({ tasks });
       } catch (error) {
-        console.error(error);
-        return response.status(500).json({ error: "Problem with server. Contact Administrator." });
+        return response.status(500).json({ error: "Problem with server. Contact Administrator.", details: error });
       }
     }
